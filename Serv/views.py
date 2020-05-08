@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def hello_nerv(req):
+    return render(req, 'Serv/hello_nerv.html', {})
