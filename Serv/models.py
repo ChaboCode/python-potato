@@ -2,7 +2,7 @@ from django.db import models
 from django.db.models import CASCADE
 
 
-class StudentsList(models.Model):
+class Group(models.Model):
     name = models.CharField(max_length=16, default='')
 
     def __str__(self):
@@ -13,7 +13,7 @@ class Student(models.Model):
     first_name = models.CharField(max_length=32)
     last_name = models.CharField(max_length=32)
     list = models.ForeignKey(
-        StudentsList,
+        Group,
         on_delete=CASCADE,
         default=None
     )
@@ -31,16 +31,18 @@ class Teacher(models.Model):
         return '{0} {1}'.format(self.first_name, self.last_name)
 
 
-class Group(models.Model):
+class Subject(models.Model):
     name = models.CharField(max_length=20, default='')
     teacher = models.ForeignKey(
         Teacher,
         on_delete=models.CASCADE,
-        default=None
+        default=None,
+        related_name='subjects'
     )
-    students = models.OneToOneField(
-        StudentsList,
-        on_delete=models.CASCADE
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.CASCADE,
+        related_name='groups'
     )
 
     def __str__(self):
